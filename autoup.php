@@ -61,7 +61,7 @@ function make_upload($file_full, $ext, $new_dir)
 	if (!$rez) die('Cannot move file!');
 	$torrent = make_torrent($move_file);
 	
-    $source = glob($nfo_file.'/*.nfo');
+        $source = glob($nfo_file.'/*.nfo');
 	
 	$nfo = 'There was no nfo file found!';
 	foreach ($source as $a) {
@@ -73,13 +73,15 @@ function make_upload($file_full, $ext, $new_dir)
 	}
 	}
 	
-	switch(true) {
+	switch(true)
+	{
 	case preg_match('/http:\/\/www.imdb.com\/title\/tt[\d]+\//', $nfo) : preg_match('/http:\/\/www.imdb.com\/title\/tt[\d]+\//', $nfo, $matches); break;
 	default : preg_match('/http:\/\/www.imdb.com\/title\/tt[\d]+/', $nfo, $matches); break;
   	}
 	$imdb = $matches[0];
 
-	switch(true) {
+	switch(true)
+	{
 	case preg_match('/hdtv|sdtv|pdtv|tvrip/i', $file) : $cat = 5; break;
 	case preg_match('/xvid|brrip|bluray|dvdrip|hdrip/i', $file) : $cat = 10; break;
 	case preg_match('/x86|x64|win64|lnx64|macosx/i', $file) : $cat = 1; break;
@@ -110,22 +112,22 @@ function make_upload($file_full, $ext, $new_dir)
 	  case preg_match('/^\d+.[a-z.]+.\d+/i', $file_name) : preg_match('/\d+.[a-z.]+.\d+/i', $file_name, $matching); break;
 	  case preg_match('/^\d+.\d+/', $file_name) : preg_match('/\d+.\d+/', $file_name, $matching); break;
 	  default : preg_match("/[a-z.]+.\d{4}/i", $file_name, $matching);
-      }
+          }
 	  $year = substr($matching[0], -4);
-      $title = substr_replace($matching[0],"", -5);
-      $title = str_replace('.', '+', $title);
-	  $obj = json_decode(file_get_contents('https://api.themoviedb.org/3/search/movie?api_key='.TMDB_API.'&language=en-US&query='.$title.'&page=1&include_adult=false&year='.$year), true);
-      if($obj['total_results'] == '0')
+        $title = substr_replace($matching[0],"", -5);
+        $title = str_replace('.', '+', $title);
+	$obj = json_decode(file_get_contents('https://api.themoviedb.org/3/search/movie?api_key='.TMDB_API.'&language=en-US&query='.$title.'&page=1&include_adult=false&year='.$year), true);
+        if($obj['total_results'] == '0')
 	  { 
-        $torrent_info['poster'] = SITE_ROOT.'/pic/noposter.png';
-      } 
+          $torrent_info['poster'] = SITE_ROOT.'/pic/noposter.png';
+          } 
 	  else
 	  {
-        $copy_poster = $obj['results']['0']['poster_path'];
-		$title = str_replace('+', '.', $title);
-        $poster_link = 'https://image.tmdb.org/t/p/w300_and_h450_bestv2';
-        $torrent_info['poster'] = $poster_link . $copy_poster;
-      }
+          $copy_poster = $obj['results']['0']['poster_path'];
+	  $title = str_replace('+', '.', $title);
+          $poster_link = 'https://image.tmdb.org/t/p/w300_and_h450_bestv2';
+          $torrent_info['poster'] = $poster_link . $copy_poster;
+          }
 	}
 	
 	upload_torrent($torrent, $torrent_info, $file);
