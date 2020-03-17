@@ -9,9 +9,9 @@ define('TEMP_TORRENT', ROOT_PATH.'/temp');
 define('LOG_FILE', ROOT_PATH.'/bot.log');
 define('JOB_LOG', ROOT_PATH.'/jobs');
 
-define('SITE_ROOT', 'https://test.site');
-define('ANNOUNCE_URL', 'https://test.site/announce.php');
-define('Q_LOGIN', 'https://test.site/pagelogin.php?qlogin=176a4490e19018f0f2ff65526f6ca6dcb5dc8128199656bcc8b2f39c06840f7afb41054c629efe6c156b97c85674a40d');
+define('SITE_ROOT', 'http://51.83.72.245');
+define('ANNOUNCE_URL', 'http://51.83.72.245/announce.php');
+define('Q_LOGIN', 'http://51.83.72.245/pagelogin.php?qlogin=90e763c53c9da922304a5aef982f7c5b533f0770efbe259161c87d0a889bcf3d320bc88839ba8a8e93a29dcb19896631');
 
 function move($source, $dest)
 {
@@ -65,21 +65,21 @@ function make_upload($file_full, $ext, $new_dir)
 	foreach ($source as $a) {
 	if (substr(strtolower($a), -4) == '.nfo') {
 	$nfo = file_get_contents($a);
-	$match = array("/[^a-zA-Z0-9-._&=?:'\/\s]/", "/\s{2,}/");
+	$match = array("/[^a-zA-Z0-9-._&?:'\/\s]/", "/\s{2,}/");
 	$replace = array("", " ");
 	$nfo = preg_replace($match, $replace, trim($nfo));
 	}
 	}
-
-        $imdb = "";
-    	if (preg_match('/http:\/\/www.imdb.com\/title\/tt[\d]+\//', $nfo, $matches)) 
-	{
-        $imdb = $matches[0];
-	}
 	
 	switch(true) {
+	case preg_match('/http:\/\/www.imdb.com\/title\/tt[\d]+\//', $nfo) : preg_match('/http:\/\/www.imdb.com\/title\/tt[\d]+\//', $nfo, $matches); break;
+	default : preg_match('/http:\/\/www.imdb.com\/title\/tt[\d]+/', $nfo, $matches); break;
+  	}
+	$imdb = $matches[0];
+
+	switch(true) {
 	case preg_match('/hdtv|sdtv|pdtv|tvrip/i', $file) : $cat = 5; break;
-	case preg_match('/xvid|brrip|dvdrip|hdrip/i', $file) : $cat = 10; break;
+	case preg_match('/xvid|brrip|bluray|dvdrip|hdrip/i', $file) : $cat = 10; break;
 	case preg_match('/x86|x64|win64|lnx64|macosx/i', $file) : $cat = 1; break;
 	case preg_match('/wii|wiiu|xbox|xbox360|ps3|ps4/i', $file) : $cat = 2; break;
 	case preg_match('/dvdr/i', $file) : $cat = 3; break;
@@ -138,7 +138,7 @@ function upload_torrent($torrent, $torrent_info, $file)
 	
         $fh = fopen(JOB_LOG.'/'.$file, 'a') or die;
 	$string_data = "Name: ".$torrent_info['name'].PHP_EOL."Added: ".date("m/d/Y h:i:s").PHP_EOL."NFO: ".$torrent_info['descr']
-	.PHP_EOL."IMDB: ".$torrent_info['url'].PHP_EOL."Category: ".$torrent_info['type'];
+	.PHP_EOL."Category: ".$torrent_info['type'];
 	fwrite($fh, $string_data);
 	fclose($fh);
 	
