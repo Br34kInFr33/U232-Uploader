@@ -138,7 +138,7 @@ function upload_torrent($torrent, $torrent_info, $file)
 	
         $fh = fopen(JOB_LOG.'/'.$file, 'a') or die;
 	$string_data = "Name: ".$torrent_info['name'].PHP_EOL."Added: ".date("m/d/Y h:i:s").PHP_EOL."NFO: ".$torrent_info['descr']
-	.PHP_EOL."Category: ".$torrent_info['type'];
+	.PHP_EOL."Category: ".$torrent_info['type'].PHP_EOL."IMDB: ".$torrent_info['url'];
 	fwrite($fh, $string_data);
 	fclose($fh);
 	
