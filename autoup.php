@@ -104,7 +104,7 @@ function make_upload($file_full, $ext, $new_dir)
 	$torrent_info['type']= $cat;
 	$torrent_info['poster'] = '';
 	
-	if(!TMDB_API = '')
+	if(TMDB_API != '')
 	{
 	  if($cat == 10 || 11)
 	  {
