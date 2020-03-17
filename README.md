@@ -8,12 +8,12 @@ This is a <del>single</del> multiple category uploader bot for u232 code sites.
 
 ## Setup for scene axx
 1. Activate your quick login option on u232 site.
-2. Edit the directory paths, announce url <del>with passkey</del>, and q login.
+2. Edit the directory paths, announce url <del>with passkey, and</del> q login.
 3. Create bot.log file.
 
 ## Setup for non scene axx
 1. Activate your quick login option on u232 site.
-2. Edit announce url <del>with passkey</del>, and q login.
+2. Edit announce url, <del>with passkey, and</del> q login.
 3. Create bot.log file.
 4. In rutorrent setup automove plugin. You'll want to hardlink to point to your UPLOAD_PATH, then make MOVE_PATH a delete directory(don't sync this directory to your download directory).  Your TORRENT_PATH directory should be your rtorrent watch directory.
 5. Setup cron job to delete all files and directories in your MOVE_PATH(to remove duplicate files).
@@ -27,4 +27,4 @@ This script was made to work best with rtorrent/rutorrent.  Before trying to upl
 * <del>Create job log, writes a new log for every upload.  Will write torrent info in log like "Name, nfo, imdb, category...</del>
 * <del>Multiple category for non site racing.</del>
 * Auto cleanup MOVE_PATH.
-* Add TMDB API for movies and tv shows.
+* Add TMDB API for <del>movies and</del> tv show posters.
