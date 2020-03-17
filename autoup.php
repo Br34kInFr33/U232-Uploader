@@ -104,32 +104,34 @@ function make_upload($file_full, $ext, $new_dir)
 	$torrent_info['type']= $cat;
 	$torrent_info['poster'] = '';
 	
-	if($cat == 10 || 11)
+	if(!TMDB_API = '')
 	{
-	  $file_name = $file;
-	  switch(true)
+	  if($cat == 10 || 11)
 	  {
-	  case preg_match('/^\d+.[a-z.]+.\d+/i', $file_name) : preg_match('/\d+.[a-z.]+.\d+/i', $file_name, $matching); break;
-	  case preg_match('/^\d+.\d+/', $file_name) : preg_match('/\d+.\d+/', $file_name, $matching); break;
-	  default : preg_match("/[a-z.]+.\d{4}/i", $file_name, $matching);
-          }
-	  $year = substr($matching[0], -4);
+	    $file_name = $file;
+	    switch(true)
+	    {
+	      case preg_match('/^\d+.[a-z.]+.\d+/i', $file_name) : preg_match('/\d+.[a-z.]+.\d+/i', $file_name, $matching); break;
+	      case preg_match('/^\d+.\d+/', $file_name) : preg_match('/\d+.\d+/', $file_name, $matching); break;
+	      default : preg_match("/[a-z.]+.\d{4}/i", $file_name, $matching);
+        }
+	    $year = substr($matching[0], -4);
         $title = substr_replace($matching[0],"", -5);
         $title = str_replace('.', '+', $title);
-	$obj = json_decode(file_get_contents('https://api.themoviedb.org/3/search/movie?api_key='.TMDB_API.'&language=en-US&query='.$title.'&page=1&include_adult=false&year='.$year), true);
+	    $obj = json_decode(file_get_contents('https://api.themoviedb.org/3/search/movie?api_key='.TMDB_API.'&language=en-US&query='.$title.'&page=1&include_adult=false&year='.$year), true);
         if($obj['total_results'] == '0')
-	  { 
+	    { 
           $torrent_info['poster'] = SITE_ROOT.'/pic/noposter.png';
-          } 
-	  else
-	  {
+        } 
+	    else
+	    {
           $copy_poster = $obj['results']['0']['poster_path'];
-	  $title = str_replace('+', '.', $title);
+	      $title = str_replace('+', '.', $title);
           $poster_link = 'https://image.tmdb.org/t/p/w300_and_h450_bestv2';
           $torrent_info['poster'] = $poster_link . $copy_poster;
-          }
+        }
+	  }
 	}
-	
 	upload_torrent($torrent, $torrent_info, $file);
 }
 
