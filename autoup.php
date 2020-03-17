@@ -11,7 +11,9 @@ define('JOB_LOG', ROOT_PATH.'/jobs');
 
 define('SITE_ROOT', 'http://test.site');
 define('ANNOUNCE_URL', 'http://test.site/announce.php');
-define('Q_LOGIN', 'http://test.site/pagelogin.php?qlogin=90e763c53c9da922304a5aef982f7c5b533f0770efbe259161c87d0a889bcf3d320bc88839ba8a8e93a29dcb19896631');
+define('Q_LOGIN', 'http://51.83.72.245/pagelogin.php?qlogin=90e763c53c9da922384a5aef982f7c5b533f0770efae259161c87d0a889bcf3d320bc88839ba8a8e93a29dcb19896631');8
+
+define('TMDB_API', '2a2c0a99175ae7746578c600d8c744f7');
 
 function move($source, $dest)
 {
@@ -59,7 +61,7 @@ function make_upload($file_full, $ext, $new_dir)
 	if (!$rez) die('Cannot move file!');
 	$torrent = make_torrent($move_file);
 	
-        $source = glob($nfo_file.'/*.nfo');
+    $source = glob($nfo_file.'/*.nfo');
 	
 	$nfo = 'There was no nfo file found!';
 	foreach ($source as $a) {
@@ -98,6 +100,34 @@ function make_upload($file_full, $ext, $new_dir)
 	$torrent_info['descr'] = $nfo;
 	$torrent_info['url'] = $imdb;
 	$torrent_info['type']= $cat;
+	$torrent_info['poster'] = '';
+	
+	if($cat == 10 || 11)
+	{
+	  $file_name = $file;
+	  switch(true)
+	  {
+	  case preg_match('/^\d+.[a-z.]+.\d+/i', $file_name) : preg_match('/\d+.[a-z.]+.\d+/i', $file_name, $matching); break;
+	  case preg_match('/^\d+.\d+/', $file_name) : preg_match('/\d+.\d+/', $file_name, $matching); break;
+	  default : preg_match("/[a-z.]+.\d{4}/i", $file_name, $matching);
+      }
+	  $year = substr($matching[0], -4);
+      $title = substr_replace($matching[0],"", -5);
+      $title = str_replace('.', '+', $title);
+	  $obj = json_decode(file_get_contents('https://api.themoviedb.org/3/search/movie?api_key='.TMDB_API.'&language=en-US&query='.$title.'&page=1&include_adult=false&year='.$year), true);
+      if($obj['total_results'] == '0')
+	  { 
+        $torrent_info['poster'] = SITE_ROOT.'/pic/noposter.png';
+      } 
+	  else
+	  {
+        $copy_poster = $obj['results']['0']['poster_path'];
+		$title = str_replace('+', '.', $title);
+        $poster_link = 'https://image.tmdb.org/t/p/w300_and_h450_bestv2';
+        $torrent_info['poster'] = $poster_link . $copy_poster;
+      }
+	}
+	
 	upload_torrent($torrent, $torrent_info, $file);
 }
 
@@ -125,8 +155,7 @@ function upload_torrent($torrent, $torrent_info, $file)
 	curl_setopt($ch, CURLOPT_COOKIEFILE, 'cookie.txt');
 	$rez = curl_exec($ch);
 	
-        $torrent_info['MAX_FILE_SIZE']=3145728;
-	$torrent_info['poster']='';	
+    $torrent_info['MAX_FILE_SIZE']=3145728;
 	$torrent_info['youtube']='';	
 	$torrent_info['file'] = new CURLFile (TEMP_TORRENT.'/'.$file .".torrent");	
 	$torrent_info['description']='Auto Upload Bot';	
@@ -136,13 +165,13 @@ function upload_torrent($torrent, $torrent_info, $file)
 	$torrent_info['release_group']='none';
 	$torrent_info['strip']=	'strip';
 	
-        $fh = fopen(JOB_LOG.'/'.$file, 'a') or die;
+    $fh = fopen(JOB_LOG.'/'.$file, 'a') or die;
 	$string_data = "Name: ".$torrent_info['name'].PHP_EOL."Added: ".date("m/d/Y h:i:s").PHP_EOL."NFO: ".$torrent_info['descr']
 	.PHP_EOL."Category: ".$torrent_info['type'].PHP_EOL."IMDB: ".$torrent_info['url'];
 	fwrite($fh, $string_data);
 	fclose($fh);
 	
-        $upload_url = SITE_ROOT.'/takeupload.php';
+    $upload_url = SITE_ROOT.'/takeupload.php';
 	$ch = curl_init($upload_url);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
