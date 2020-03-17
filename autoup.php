@@ -185,8 +185,8 @@ function upload_torrent($torrent, $torrent_info, $file)
 	$rez = curl_exec($ch);
 	if (!$rez || strpos($rez, 'login.php')) 
 	{
-		make_login();
-		goto loged_in;
+	  make_login();
+	  goto loged_in;
 	}
 
 	unlink(TEMP_TORRENT.'/'.$file.".torrent");
@@ -229,18 +229,18 @@ function scan_folder()
 	
 	if ( !is_dir($dir_done) )
 	{
-		$ok = mkdir($dir_done);
-		if (!$ok) die('Cannot create destination folder!');
+	  $ok = mkdir($dir_done);
+	  if (!$ok) die('Cannot create destination folder!');
 	}
 	
 	$dh = opendir($dir);
 	while ( $file = readdir($dh) )
 	{
-		if ($file == '.' || $file == '..') continue;
-		$file_full = $dir.'/'.$file;
-		if ($file_full == MOVE_PATH) continue;
-		$ext = pathinfo($file_full, PATHINFO_EXTENSION);
-		make_upload($file_full, $ext, $dir_done);
+	  if ($file == '.' || $file == '..') continue;
+	  $file_full = $dir.'/'.$file;
+	  if ($file_full == MOVE_PATH) continue;
+	  $ext = pathinfo($file_full, PATHINFO_EXTENSION);
+	  make_upload($file_full, $ext, $dir_done);
 	}
 }
 
