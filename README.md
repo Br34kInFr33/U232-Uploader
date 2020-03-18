@@ -7,9 +7,10 @@ This is a <del>single</del> multiple category uploader bot for u232 code sites.
 * mktorrent
 
 ## Setup for scene axx
-1. Activate your quick login option on u232 site.
+Not ready for scene axx yet.
+<del>1. Activate your quick login option on u232 site.
 2. Edit the directory paths, site root, announce url <del>with passkey</del>, quick login, and tmdb api.
-3. Create bot.log file.
+3. Create bot.log file.</del>
 
 ## Setup for non scene axx
 1. Activate your quick login option on u232 site.
@@ -28,3 +29,4 @@ This script was made to work best with rtorrent/rutorrent.  Before trying to upl
 * <del>Multiple category.</del>
 * <del>Auto cleanup MOVE_PATH.</del>
 * <del>Add TMDB API for movies and tv show posters (if no api key is added bot will skip this step).</del>
+* Setup for scene axx.
