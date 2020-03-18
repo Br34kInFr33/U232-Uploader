@@ -261,6 +261,13 @@ function download_torrent($file)
 	$rez = curl_exec($ch);
 
 	file_put_contents(TORRENT_PATH.'/'.$file.".torrent", $rez);
+
+        delete_file($file);
+}
+
+function delete_file($file)
+{
+        exec("rm -rf ".MOVE_PATH."/".$file); 
 }
 
 function scan_folder()
