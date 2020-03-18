@@ -16,6 +16,8 @@ define('QUICK_LOGIN', 'http://51.83.72.245/pagelogin.php?qlogin=90e763c53c9da922
 
 define('TMDB_API', '2b2c0a99175ae7746878c600d8f744f7');
 
+define('SCENE_AXX', true);
+
 error_reporting(E_ALL);
 ini_set("log_errors", true);
 ini_set("error_log", LOG_FILE);
@@ -133,7 +135,7 @@ function make_upload($file_full, $ext, $new_dir)
           $copy_poster = $obj['results']['0']['poster_path'];
 	      $title = str_replace('+', '.', $title);
           $poster_link = 'https://image.tmdb.org/t/p/w300_and_h450_bestv2';
-          $torrent_info['poster'] = $poster_link . $copy_poster;
+          $torrent_info['poster'] = $poster_link.$copy_poster;
         }
 	  }
 	  if($cat === 5)
@@ -167,7 +169,7 @@ function make_upload($file_full, $ext, $new_dir)
           $copy_poster = $obj['results']['0']['poster_path'];
 	      $title = str_replace('+', '.', $title);
           $poster_link = 'https://image.tmdb.org/t/p/w300_and_h450_bestv2';
-          $torrent_info['poster'] = $poster_link . $copy_poster;
+          $torrent_info['poster'] = $poster_link.$copy_poster;
         }
       }
 	}
@@ -200,7 +202,7 @@ function upload_torrent($torrent, $torrent_info, $file)
 	
     $torrent_info['MAX_FILE_SIZE']=3145728;
 	$torrent_info['youtube']='';	
-	$torrent_info['file'] = new CURLFile (TEMP_TORRENT.'/'.$file .".torrent");	
+	$torrent_info['file'] = new CURLFile (TEMP_TORRENT.'/'.$file.".torrent");	
 	$torrent_info['description']='Auto Upload Bot';	
 	$torrent_info['fontfont']='0';
 	$torrent_info['fontsize']='0';
@@ -261,13 +263,12 @@ function download_torrent($file)
 	$rez = curl_exec($ch);
 
 	file_put_contents(TORRENT_PATH.'/'.$file.".torrent", $rez);
+        
+    if(SCENE_AXX != true)
+	{
+	  exec("rm -rf ".MOVE_PATH."/".$file);
+	}
 
-        delete_file($file);
-}
-
-function delete_file($file)
-{
-        exec("rm -rf ".MOVE_PATH."/".$file); 
 }
 
 function scan_folder()
