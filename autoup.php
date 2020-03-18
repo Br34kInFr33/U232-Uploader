@@ -10,11 +10,11 @@ define('TEMP_TORRENT', ROOT_PATH.'/temp');
 define('LOG_FILE', ROOT_PATH.'/bot.log');
 define('JOB_LOG', ROOT_PATH.'/jobs');
 
-define('SITE_ROOT', 'http://51.83.72.245');
-define('ANNOUNCE_URL', 'http://51.83.72.245/announce.php');
-define('QUICK_LOGIN', 'http://51.83.72.245/pagelogin.php?qlogin=90e763c53c9da922304a5aef982f7c5b533f0770efbe259161c87d0a889bcf3d320bc88839ba8a8e93a29dcb19896631');
+define('SITE_ROOT', 'http://test.site');
+define('ANNOUNCE_URL', 'http://test.site/announce.php');
+define('QUICK_LOGIN', 'http://test.site/pagelogin.php?qlogin=90e763c53c9da922304a5aef982f7c5b533f0770efbe259161c87d0a889bcf3d320bc88839ba8a8e93a29dcb19896631');
 
-define('TMDB_API', '2b2c0a99175ae7746878c600d8f744f7');
+define('TMDB_API', '2a2c0a98175ae7646878c600d8f744f7');
 
 define('SCENE_AXX', true);
 
