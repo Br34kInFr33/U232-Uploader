@@ -7,7 +7,7 @@ This is a <del>single</del> multiple category uploader bot for u232 code sites.
 * mktorrent
 
 ## Setup for scene axx
-Not ready for scene axx yet.
+###Not ready for scene axx yet.
 <del>1. Activate your quick login option on u232 site.
 2. Edit the directory paths, site root, announce url <del>with passkey</del>, quick login, and tmdb api.
 3. Create bot.log file.</del>
