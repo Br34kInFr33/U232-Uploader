@@ -111,7 +111,7 @@ function make_upload($file_full, $ext, $new_dir)
 	
 	if(TMDB_API != '')
 	{
-	  if($cat == 10 || 11)
+	  if(($cat === 10) || ($cat === 11))
 	  {
 	    $file_name = $file;
 	    switch(true)
@@ -136,7 +136,7 @@ function make_upload($file_full, $ext, $new_dir)
           $torrent_info['poster'] = $poster_link . $copy_poster;
         }
 	  }
-	  if($cat == 5)
+	  if($cat === 5)
 	  {
 	    $file_name = $file;
 	    switch(true) 
