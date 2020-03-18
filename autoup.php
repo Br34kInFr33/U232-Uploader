@@ -1,4 +1,5 @@
 <?php
+
 define('ROOT_PATH', '/home/upload');
 define('UPLOAD_PATH', ROOT_PATH.'/scan');
 define('MOVE_PATH', ROOT_PATH.'/move');
@@ -9,11 +10,15 @@ define('TEMP_TORRENT', ROOT_PATH.'/temp');
 define('LOG_FILE', ROOT_PATH.'/bot.log');
 define('JOB_LOG', ROOT_PATH.'/jobs');
 
-define('SITE_ROOT', 'http://test.site');
-define('ANNOUNCE_URL', 'http://test.site/announce.php');
-define('QUICK_LOGIN', 'http://test.site/pagelogin.php?qlogin=90e763c53c9da922384a5aef982f7c5b533f0770efae259161c87d0a889bcf3d320bc88839ba8a8e93a29dcb19896631');8
+define('SITE_ROOT', 'http://51.83.72.245');
+define('ANNOUNCE_URL', 'http://51.83.72.245/announce.php');
+define('QUICK_LOGIN', 'http://51.83.72.245/pagelogin.php?qlogin=90e763c53c9da922304a5aef982f7c5b533f0770efbe259161c87d0a889bcf3d320bc88839ba8a8e93a29dcb19896631');
 
-define('TMDB_API', '2a2c0a99175ae7746578c600d8c744f7');
+define('TMDB_API', '2b2c0a99175ae7746878c600d8f744f7');
+
+error_reporting(E_ALL);
+ini_set("log_errors", true);
+ini_set("error_log", LOG_FILE);
 
 function move($source, $dest)
 {
@@ -82,7 +87,7 @@ function make_upload($file_full, $ext, $new_dir)
 
 	switch(true)
 	{
-	case preg_match('/hdtv|sdtv|pdtv|tvrip/i', $file) : $cat = 5; break;
+	case preg_match('/s\d+e\d+|s\d+|hdtv|sdtv|pdtv|tvrip/i', $file) : $cat = 5; break;
 	case preg_match('/xvid|brrip|bluray|dvdrip|hdrip/i', $file) : $cat = 10; break;
 	case preg_match('/x86|x64|win64|lnx64|macosx/i', $file) : $cat = 1; break;
 	case preg_match('/wii|wiiu|xbox|xbox360|ps3|ps4/i', $file) : $cat = 2; break;
@@ -119,11 +124,11 @@ function make_upload($file_full, $ext, $new_dir)
         $title = substr_replace($matching[0],"", -5);
         $title = str_replace('.', '+', $title);
 	    $obj = json_decode(file_get_contents('https://api.themoviedb.org/3/search/movie?api_key='.TMDB_API.'&language=en-US&query='.$title.'&page=1&include_adult=false&year='.$year), true);
-        if($obj['total_results'] == '0')
-	    { 
-          $torrent_info['poster'] = SITE_ROOT.'/pic/noposter.png';
-        } 
-	    else
+        if($obj['total_results'] == 0)
+		{
+		 $torrent_info['poster'] = SITE_ROOT.'/pic/noposter.png';
+		}
+		else
 	    {
           $copy_poster = $obj['results']['0']['poster_path'];
 	      $title = str_replace('+', '.', $title);
@@ -131,6 +136,40 @@ function make_upload($file_full, $ext, $new_dir)
           $torrent_info['poster'] = $poster_link . $copy_poster;
         }
 	  }
+	  if($cat == 5)
+	  {
+	    $file_name = $file;
+	    switch(true) 
+		{
+	      case preg_match('/^\d+.[a-z.]+.s\d+e\d+./i', $file_name) : preg_match('/\d+.[a-z.]+.s\d+e\d+./i', $file_name, $matching); break;
+	      case preg_match('/^[a-z.]+.\d+.s\d+e\d+./i', $file_name) : preg_match('/[a-z.]+.\d+.s\d+e\d+./i', $file_name, $matching); break;
+	      case preg_match('/^\d+.[a-z.]+.s\d+./i', $file_name) : preg_match('/\d+.[a-z.]+.s\d+./i', $file_name, $matching); break;
+	      case preg_match('/^[a-z.]+.\d+.s\d+./i', $file_name) : preg_match('/[a-z.]+.\d+.s\d+./i', $file_name, $matching); break;
+	      case preg_match('/^[a-z.]+.s\d+./i', $file_name) : preg_match('/[a-z.]+.s\d+./i', $file_name, $matching); break;
+	      default : preg_match("/[a-z.]+.s\d+e\d+./i", $file_name, $matching);
+        }
+        if(preg_match('/e\d+/i', $matching[0]))
+        {
+          $title = substr_replace($matching[0],"", -8);
+        }
+        else
+        {
+          $title = substr_replace($matching[0],"", -5);
+        }
+        $title = str_replace('.', '+', $title);
+        $obj = json_decode(file_get_contents('https://api.themoviedb.org/3/search/tv?api_key='.TMDB_API.'&language=en-US&query='.$title.'&page=1'), true);
+        if($obj['total_results'] == 0)
+		{
+		 $torrent_info['poster'] = SITE_ROOT.'/pic/noposter.png';
+		}
+		else
+	    {
+          $copy_poster = $obj['results']['0']['poster_path'];
+	      $title = str_replace('+', '.', $title);
+          $poster_link = 'https://image.tmdb.org/t/p/w300_and_h450_bestv2';
+          $torrent_info['poster'] = $poster_link . $copy_poster;
+        }
+      }
 	}
 	upload_torrent($torrent, $torrent_info, $file);
 }
