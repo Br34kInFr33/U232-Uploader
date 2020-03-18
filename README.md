@@ -5,6 +5,7 @@ This is a <del>single</del> multiple category uploader bot for u232 code sites.
 * PHP
 * Curl
 * mktorrent
+* screen (if you're running the bot 24/7)
 
 ## Setup for scene axx
 Directions coming soon.
@@ -17,7 +18,9 @@ Directions coming soon.
 5. Set scene axx option to false.(unless you don't want to remove the duplicate files).
 
 ## How to use
-This script was made to work best with rtorrent/rutorrent.  Before trying to upload anything run the script once so it can grab the cookie (the first login will fail).
+1. Follow setup instructions.
+2. Run uploader in screen (skip this step if you're not running bot 24/7).
+3. Run the script once (your very first login will fail) so it can grab the cookie.
 
 ## TODO
 * <del>Create error directory for failed uploads.</del>
