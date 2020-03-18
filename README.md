@@ -26,5 +26,5 @@ This script was made to work best with rtorrent/rutorrent.  Before trying to upl
 * <del>Create a bot log file, writes things like "starting on XYZ... blah blah". Can be useful when daemonized.</del>
 * <del>Create job log, writes a new log for every upload.  Will write torrent info in log like "Name, nfo, imdb, category...</del>
 * <del>Multiple category.</del>
-* Auto cleanup MOVE_PATH.
-* Add TMDB API for <del>movies and</del> tv show posters (if no api key is added bot will skip this step).
+* <del>Auto cleanup MOVE_PATH.</del>
+* <del>Add TMDB API for movies and tv show posters (if no api key is added bot will skip this step).</del>
