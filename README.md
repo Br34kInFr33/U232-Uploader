@@ -1,5 +1,5 @@
 # U232-Uploader
-This is a <del>single</del> multiple category uploader bot for u232 code sites.
+This is a multiple category uploader bot for u232 code sites.
 
 ## Requirements
 * PHP
@@ -8,14 +8,23 @@ This is a <del>single</del> multiple category uploader bot for u232 code sites.
 * screen (if you're running the bot 24/7)
 
 ## Setup for scene axx
-Directions coming soon.
+1. Activate your quick login option on u232 site (click name, general tab, generate quick link).
+2. Make 4 directories and name them error, jobs, scan, and temp.
+3. Create a bot.log file.
+4. Edit the directory paths, site root, announce url, and quick login (TORRENT_PATH is your rtorrent watch directory, MOVE_PATH is your rtorrent download directory).
+5. Your TORRENT_PATH directory should be your rtorrent watch directory.
+6. Add tmdb api key if you're going to use the tmdb option.
+7. Set scene axx option to true.
 
 ## Setup for non scene axx
-1. Activate your quick login option on u232 site.
-2. Edit the directory paths, site root, announce url <del>with passkey</del>, quick login, and tmdb api.
-3. Create bot.log file.
-4. In rutorrent setup automove plugin. You'll want to hardlink to point to your UPLOAD_PATH, then make MOVE_PATH a delete directory(don't sync this directory to your download directory).  Your TORRENT_PATH directory should be your rtorrent watch directory.
-5. Set scene axx option to false.(unless you don't want to remove the duplicate files).
+1. Activate your quick login option on u232 site (click name, general tab, generate quick link).
+2. Make 5 directories and name them error, jobs, scan, move and temp.
+3. Create a bot.log file.
+4. In Rutorrent setup automove plugin. You'll want to hardlink to point to your UPLOAD_PATH.
+5. Edit the directory paths, site root, announce url, and quick login (TORRENT_PATH is your rtorrent watch directory, MOVE_PATH will be your delete directory).
+6. Your TORRENT_PATH directory should be your rtorrent watch directory.
+7. Add tmdb api key if you're going to use the tmdb option.
+8. Set scene axx option to false (unless you don't want to remove the duplicate files).
 
 ## How to use
 1. Follow setup instructions.
