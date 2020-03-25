@@ -89,10 +89,9 @@ function make_upload($file_full, $ext, $new_dir)
         }
     }
 
+    $imdb = '';
     if (preg_match('/^http(s)?:\/\/(www.)?(imdb|uk.imdb|us.imdb).com\/title\/tt[\d]+(\/)?/i', $nfo, $matches) {
         $imdb = $matches[0];
-    } else {
-        $imdb = '';
     }
         
     switch(true)
