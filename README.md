@@ -5,7 +5,6 @@ This is a multiple category uploader bot for u232 code sites.
 * PHP
 * Curl
 * mktorrent
-* screen (if you're running the bot 24/7)
 
 ## Setup for scene axx
 1. Activate your quick login option on u232 site (click name, general tab, generate quick link).
@@ -28,8 +27,8 @@ This is a multiple category uploader bot for u232 code sites.
 
 ## How to use
 1. Follow setup instructions.
-2. Run uploader in screen (skip this step if you're not running bot 24/7).
-3. Run the script once (your very first login will fail) so it can grab the cookie.
+2. Run the autoup.sh file to run the uploader 24/7 (skip this step if you're not running bot 24/7).
+3. Run the uploader script once (your very first login will fail) so it can grab the cookie.
 
 ## TODO
 * <del>Create error directory for failed uploads.</del>
