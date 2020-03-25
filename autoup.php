@@ -18,10 +18,6 @@ define('TMDB_API', '2a2c0a98175ae7646878c600d8f744f7');
 
 define('SCENE_AXX', false);
 
-error_reporting(E_ALL);
-ini_set("log_errors", true);
-ini_set("error_log", LOG_FILE);
-
 function move($source, $dest)
 {
     $cmd = 'mv "'.$source.'" "'.$dest.'"'; 
