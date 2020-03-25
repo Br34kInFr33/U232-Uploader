@@ -89,15 +89,12 @@ function make_upload($file_full, $ext, $new_dir)
         }
     }
 
-    switch(true)
-    {
-    case preg_match('/http:\/\/www.imdb.com\/title\/tt[\d]+\//', $nfo) : preg_match('/http:\/\/www.imdb.com\/title\/tt[\d]+\//', $nfo, $matches);
-        break;
-    default : preg_match('/http:\/\/www.imdb.com\/title\/tt[\d]+/', $nfo, $matches); 
-        break;
+    if (preg_match('/^http(s)?:\/\/(www.)?(imdb|uk.imdb|us.imdb).com\/title\/tt[\d]+(\/)?/i', $nfo, $matches) {
+        $imdb = $matches[0];
+    } else {
+        $imdb = '';
     }
-    $imdb = $matches[0];
-
+        
     switch(true)
     {
     case preg_match('/s\d+e\d+|s\d+|hdtv|sdtv|pdtv|tvrip/i', $file) : $cat = 5;
